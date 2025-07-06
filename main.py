@@ -11,6 +11,7 @@ def pick_a_word(list_of_words):
 
 def main():
     print("Welcome to the Word Guesser Game!")
+    print("=====================================\n\n")
     print("You will be given a random word to guess.")
     print("Try to guess the word in as few attempts as possible.\n")
     print("Please choose your category:")
@@ -29,32 +30,36 @@ def main():
     if category == '2':
         path_to_file = "book_titles.txt"
 
-    # Load the list of words from the file
-    # and pick a random word from the list
-
     list_of_words = get_titles(path_to_file)
     word = pick_a_word(list_of_words)
 
     guessed_word = ['_'] * len(word)
-    attempts = 15
+    if " " in word:
+        for i in range(len(word)):
+            if word[i] == " ":
+                guessed_word[i] = " "
+    attempts = 10
 
-    print(f"\nYour word has {len(word)} letters!")
-    print("You have 15 attempts to guess the word.")
+    print("You have 10 attempts to guess the word.")
     print("Good luck!\n")
 
     while attempts > 0:
-        print("Current word: " + ' '.join(guessed_word))
+        print("Current word: " + ' '.join(guessed_word) + "\n")
         guess = input("Guess a letter: ")
+
+        if len(guess) != 1:
+            print("Please enter a single letter.\n")
+            continue
 
         if guess.lower() in word:
             for i in range(len(word)):
                 if word[i] == guess:
                     guessed_word[i] = guess
-            print("Good guess!")
+            print("Good guess!\n")
 
         else:
             attempts -= 1
-            print(f"Wrong guess! You have {attempts} attempts left.")
+            print(f"Wrong guess! You have {attempts} attempts left.\n")
 
         if '_' not in guessed_word:
             print("Congratulations! You've guessed the word: " + word)
